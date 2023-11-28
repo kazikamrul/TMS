@@ -645,11 +645,9 @@ namespace SchoolManagement.Application.Profiles
             #region CourseSection Mappings      
             CreateMap<CourseSectionDto, CourseSection>().ReverseMap()
                 .ForMember(d => d.CourseName, o => o.MapFrom(s => s.CourseName.Course))
-<<<<<<< HEAD
+ 
                 .ForMember(d => d.BnaCurriculumType, o => o.MapFrom(s => s.BnaCurriculumType.CurriculumType ))
-=======
-                .ForMember(d => d.BnaCurriculumType, o => o.MapFrom(t => t.BnaCurriculumType.CurriculumType))
->>>>>>> b2beece3 (First routine commit)
+ 
                 .ForMember(d => d.BaseSchoolName, o => o.MapFrom(s => s.BaseSchoolName.SchoolName));
 
             CreateMap<CourseSection, CreateCourseSectionDto>().ReverseMap();

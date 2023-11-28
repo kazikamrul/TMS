@@ -20,7 +20,7 @@ namespace SchoolManagement.Application.Features.CourseSections.Handlers.Queries
          
         public async Task<List<CourseSectionDto>> Handle(GetSelectedCourseSectionByCourseNameIdRequest request, CancellationToken cancellationToken)
         {
-            ICollection<CourseSection> CourseSections = _CourseSectionRepository.FilterWithInclude(x=>x.CourseNameId == request.CourseNameId, "BaseSchoolName", "CourseName").ToList();
+            ICollection<CourseSection> CourseSections = _CourseSectionRepository.FilterWithInclude(x=>x.CourseNameId == request.CourseNameId, "CourseName").ToList();
             
             var CourseSectionDtos = _mapper.Map<List<CourseSectionDto>>(CourseSections);
             return CourseSectionDtos; 

@@ -165,18 +165,10 @@ public class BnaSubjectNameController : ControllerBase
             CourseDurationId = courseDurationId,
             CourseWeekId = courseWeekId,
             CourseSectionId = courseSectionId
-        });
-<<<<<<< HEAD
+        }); 
         return Ok(SubjectNameValue);
     }
-
-=======
-        var yy = SubjectNameValue;
-        return Ok(SubjectNameValue);
-    }
-
-   
->>>>>>> b2beece3 (First routine commit)
+      
 
     [HttpGet]
     [Route("get-selectedSubjectNamesByParameters")]

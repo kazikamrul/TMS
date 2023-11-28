@@ -22,11 +22,11 @@ public class CourseWeekController : ControllerBase
     [Route("get-courseWeeks")]
     public async Task<ActionResult<List<CourseWeekDto>>> Get([FromQuery] QueryParams queryParams, int baseSchoolNameId, int courseDurationId)
     {
-        var CourseWeeks = await _mediator.Send(new GetCourseWeekListRequest { QueryParams = queryParams, BaseSchoolNameId= baseSchoolNameId, CourseDurationId  = courseDurationId });
+        var CourseWeeks = await _mediator.Send(new GetCourseWeekListRequest { QueryParams = queryParams, BaseSchoolNameId = baseSchoolNameId, CourseDurationId = courseDurationId });
         return Ok(CourseWeeks);
     }
 
-    
+
 
     [HttpGet]
     [Route("get-courseWeekDetail/{id}")]
@@ -77,7 +77,22 @@ public class CourseWeekController : ControllerBase
     [Route("get-selectedCourseWeeks")]
     public async Task<ActionResult<List<SelectedModel>>> getselectedCourseWeek(int baseSchoolNameId, int courseDurationId, int courseNameId, int? status)
     {
-        var selectedCourseWeek = await _mediator.Send(new GetSelectedCourseWeekRequest { 
+        var selectedCourseWeek = await _mediator.Send(new GetSelectedCourseWeekRequest
+        {
+            BaseSchoolNameId = baseSchoolNameId,
+            CourseDurationId = courseDurationId,
+            CourseNameId = courseNameId,
+            Status = status
+        });
+        return Ok(selectedCourseWeek);
+    }
+
+    [HttpGet]
+    [Route("get-selectedBnaCourseWeeks")]
+    public async Task<ActionResult<List<SelectedModel>>> getselectedBnaCourseWeek(int baseSchoolNameId, int courseDurationId, int courseNameId, int? status)
+    {
+        var selectedCourseWeek = await _mediator.Send(new GetSelectedCourseWeekRequest
+        {
             BaseSchoolNameId = baseSchoolNameId,
             CourseDurationId = courseDurationId,
             CourseNameId = courseNameId,
@@ -90,7 +105,7 @@ public class CourseWeekController : ControllerBase
     [Route("get-selectedCourseWeekForEvaluation")]
     public async Task<ActionResult<List<SelectedModel>>> GetSelectedCourseWeek()
     {
-        var selectedCourseWeek= await _mediator.Send(new GetSelectedCourseWeekForEvaluationRequest { });
+        var selectedCourseWeek = await _mediator.Send(new GetSelectedCourseWeekForEvaluationRequest { });
         return Ok(selectedCourseWeek);
     }
 

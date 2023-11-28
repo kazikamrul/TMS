@@ -48,6 +48,7 @@ export class BnasemesterdurationListComponent implements OnInit {
      
 
       this.dataSource.data = response.items; 
+      console.log( response.items);
       this.paging.length = response.totalItemsCount    
       this.isLoading = false;
     })

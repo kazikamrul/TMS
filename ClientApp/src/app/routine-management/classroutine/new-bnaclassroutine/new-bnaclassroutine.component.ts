@@ -67,10 +67,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
   totalPeriod:string;
   selectedRoutineByParameters:ClassRoutine[];
   selectedRoutineByParametersAndDate:ClassRoutine[];
-<<<<<<< HEAD
-=======
-  selectedRoutineByParametersAndDateexam:ClassRoutine[];
->>>>>>> b2beece3 (First routine commit)
+ 
+  selectedRoutineByParametersAndDateexam:ClassRoutine[]; 
   traineeListByBaseSchoolAndCourse
   dataForClassRoutine:any;
   periodListByBaseSchoolAndCourse:any[];
@@ -95,10 +93,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
   displayedPeriodListColumns: string[] = ['ser','periodName','duration'];
   displayedRoutineNoteColumns: string[] = ['ser','routineName','routineNote'];
   displayedColumns: string[];
-<<<<<<< HEAD
-=======
-  displayedColumnsexam: string[];
->>>>>>> b2beece3 (First routine commit)
+ 
+  displayedColumnsexam: string[]; 
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
@@ -272,10 +268,8 @@ export class NewBnaClassRoutineComponent implements OnInit {
                       text-transform: capitalize;
                       height:170px;
                   }
-<<<<<<< HEAD
-=======
-                  
->>>>>>> b2beece3 (First routine commit)
+ 
+                   
                     table th,table td {
                   font-size: 10px;
                     }
@@ -429,11 +423,6 @@ export class NewBnaClassRoutineComponent implements OnInit {
           console.log(res);
         })
 
-      this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(this.schoolId,this.courseId).subscribe(res=>{
-        this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;    
-        console.log(this.selectedCourseModuleByBaseSchoolAndCourseNameId);
-        console.log("Module")
-      });
       this.ClassRoutineService.getselectedClassPeriodbyschoolandcourse(this.schoolId,this.courseId).subscribe(res=>{
         this.selectedclassperiod=res;
       });
@@ -559,7 +548,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     return (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get(type).value;
   }
 
-  onSectionSelectionGet(){
+  onSectionSelectionGet(){    
     var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
     var courseNameId=this.ClassRoutineForm.value['courseNameId'];
     var courseWeekId=this.ClassRoutineForm.value['courseWeekId'];
@@ -609,14 +598,12 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.weekStartDate =this.datepipe.transform(weekStartDate, 'dd/MM/yyyy');
     });
 
-<<<<<<< HEAD
-    this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
-      this.selectedRoutineByParametersAndDate=res;
-=======
+ 
+
+ 
     this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameBNAClassSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDate=res;
-      console.log(res)
->>>>>>> b2beece3 (First routine commit)
+      console.log(res) 
       //debugger;
       // console.log("Routine by Sp request")
       // console.log(this.selectedRoutineByParametersAndDate)
@@ -634,16 +621,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
       // console.log(this.selectedRoutineByParametersAndDate);
 
       
-    });
-<<<<<<< HEAD
-=======
+    }); 
     this.ClassRoutineService.getClassRoutineByCourseNameBaseSchoolNameBNAExamSpRequest(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId).subscribe(res=>{
       this.selectedRoutineByParametersAndDateexam=res;
       console.log(res)
       this.displayedColumnsexam =[...Object.keys(this.selectedRoutineByParametersAndDateexam[0])];      
     });
-
->>>>>>> b2beece3 (First routine commit)
+ 
   }
 
   getselectedbaseschools(){
@@ -669,6 +653,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
   getselectedbnasubjectname(dropdown){
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
+    
     if(id){
       var courseDurationId = dropdown[0];
       var courseNameId=dropdown[1];
@@ -684,11 +669,18 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
     } 
     
-    this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
+  /*  this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
       console.log(this.selectedWeek)
       console.log("Course Week")
     });    
+*/
+    
+    this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
+      this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;    
+      console.log(this.selectedCourseModuleByBaseSchoolAndCourseNameId);
+      console.log("Module")
+    });
   } 
 
   getselectedCourseModules(){
@@ -696,6 +688,35 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.selectedCourseModule=res;
     });
   } 
+
+
+  onsemSelectionChangeGet(dropdown){
+    console.log('sfsdf ffff');
+    const id = this.route.snapshot.paramMap.get('classRoutineId'); 
+
+    var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
+    var courseNameArr = this.ClassRoutineForm.value['courseNameId'].split('_');
+    var courseDurationId = courseNameArr[0];//dropdown.value;
+   var courseNameId=courseNameArr[1];
+  //  this.courseName=dropdown.text;
+   // this.ClassRoutineForm.get('courseName').setValue(dropdown.text);
+    //this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
+   this.ClassRoutineForm.get('courseDurationId').setValue(dropdown.value);
+
+    console.log(baseSchoolNameId)
+    console.log(courseDurationId)
+    console.log(courseNameId)
+    console.log(dropdown.value)
+    console.log('sfsdf ffff')
+    
+   this.ClassRoutineService.getSelectedBnaCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
+      this.selectedWeek=res;
+      console.log(this.selectedWeek)
+      console.log("Course Week")
+    }); 
+
+ 
+  }
 
   
 

@@ -57,11 +57,7 @@ public class CourseSectionController : ControllerBase
     public async Task<ActionResult> Put([FromBody] CourseSectionDto CourseSection)
     {
         var command = new UpdateCourseSectionCommand { CourseSectionDto = CourseSection };
-<<<<<<< HEAD
-        //var tt = command;
-=======
-       // var tt = command;
->>>>>>> b2beece3 (First routine commit)
+ 
         await _mediator.Send(command);
         return NoContent();
     }
@@ -99,6 +95,20 @@ public class CourseSectionController : ControllerBase
         }); 
         return Ok(CourseSectionValue);
     }
+
+
+
+    [HttpGet]
+    [Route("get-selectedCourseSectionsByCourseNameId")]
+    public async Task<ActionResult<List<SelectedModel>>> GetSelectedCourseSectionByBaseSchoolNameIdAndCourseNameId(  int courseNameId)
+    {
+        var CourseSectionValue = await _mediator.Send(new GetSelectedCourseSectionByCourseNameIdRequest
+        { 
+            CourseNameId = courseNameId,
+        });
+        return Ok(CourseSectionValue);
+    }
+
 
     [HttpGet]
     [Route("get-selectedCourseSectionByBaseSchoolNameId")]

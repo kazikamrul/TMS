@@ -55,7 +55,7 @@
                     </div> -->
 
 
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 mb-2">
                       <mat-form-field class="example-full-width mb-3" appearance="outline">
                           <mat-label>Trainee</mat-label>                        
                           <input formControlName="traineeName" matInput type="text" [matAutocomplete]="auto" />
@@ -66,6 +66,18 @@
                           </mat-autocomplete>
                       </mat-form-field>
                     </div>
+                   
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 mb-2">
+                      <mat-form-field class="example-full-width mb-3" appearance="outline">
+                        <mat-select formControlName="courseSectionId">
+                          <mat-option  value="">--Select--</mat-option >
+                          <mat-option *ngFor="let dropdown of courseSectionList" [value]="dropdown.value">
+                            {{dropdown.text}} 
+                          </mat-option>                          
+                        </mat-select>
+                      </mat-form-field>
+                    </div> 
+
                 </div>
                
                 <div class="row">

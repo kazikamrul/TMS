@@ -101,7 +101,7 @@ export class NewClassRoutineComponent implements OnInit {
   showSpinner = false;
 
   constructor(private snackBar: MatSnackBar,private datepipe: DatePipe, private courseWeekService: CourseWeekService,private authService: AuthService,private courseSectionService: CourseSectionService, private ClassPeriodService: ClassPeriodService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private ClassRoutineService: ClassRoutineService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
-
+ 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
@@ -109,6 +109,7 @@ export class NewClassRoutineComponent implements OnInit {
     this.traineeId =  this.authService.currentUserValue.traineeId.trim();
     this.branchId =  this.authService.currentUserValue.branchId.trim();
     console.log(this.role, this.traineeId, this.branchId)
+ 
  
 
     if (id) {
@@ -506,13 +507,18 @@ export class NewClassRoutineComponent implements OnInit {
     // var bnaSubjectNameId=this.ClassRoutineForm.value['bnaSubjectNameId'];
     // var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
     // console.log(baseSchoolNameId,courseNameId,bnaSubjectNameId, courseDurationId)
-
+    //let routineCounttt;
 
     this.ClassRoutineService.getClassRoutineCountByParameterRequest(baseSchoolNameId,courseNameId,bnaSubjectNameId,courseDurationId,courseSectionId).subscribe(res=>{
       this.routineCount=res;
       (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get('classCountPeriod').setValue(this.routineCount);
     //  this.ClassRoutineForm.get('classCountPeriod').setValue(this.routineCount);
+    
+   // if ( bnaSubjectNameId)
+   //this.routineCount=this.routineCount+1;
+
       console.log("routine count");
+      console.log(index);
       console.log(this.routineCount);
     });
 
@@ -544,9 +550,16 @@ export class NewClassRoutineComponent implements OnInit {
     }  
   }
 
+
+   
   getControlLevel(index: number, type: string) {
-    return (this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get(type).value;
+  
+    let y =1;
+    let period_count=0;
+    period_count =(this.ClassRoutineForm.get('perodListForm') as FormArray).at(index).get(type).value;
+    return  period_count;
   }
+ 
 
   onSectionSelectionGet(){
     var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];

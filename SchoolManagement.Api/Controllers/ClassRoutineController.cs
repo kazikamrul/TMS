@@ -265,8 +265,7 @@ public class ClassRoutineController : ControllerBase
         return Ok(routineList);
     }
 
-<<<<<<< HEAD
-=======
+ 
 
     [HttpGet]
     [Route("get-subjectsByRoutineListBNAClass")]
@@ -297,8 +296,7 @@ public class ClassRoutineController : ControllerBase
     }
 
 
-
->>>>>>> b2beece3 (First routine commit)
+     
     [HttpGet]
     [Route("get-classRoutineForSchoolDashboard")]
 
