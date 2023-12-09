@@ -63,6 +63,7 @@ namespace SchoolManagement.Application
         public const string CourseGradingEntry = SMSRoutePrefixBase + "course-grading-entry";
         public const string CourseDurations = SMSRoutePrefixBase + "course-duration";
         public const string CourseInstructors = SMSRoutePrefixBase + "course-instructor";
+        public const string CourseNomenees = SMSRoutePrefixBase + "course-Nomenee";
         public const string CourseModule = SMSRoutePrefixBase + "course-module";
         public const string CourseSection = SMSRoutePrefixBase + "course-section";
         public const string CourseName = SMSRoutePrefixBase + "course-name";

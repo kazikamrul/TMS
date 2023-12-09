@@ -46,6 +46,7 @@ using SchoolManagement.Application.DTOs.CourseWeeks;
 using SchoolManagement.Application.DTOs.Complexion;
 using SchoolManagement.Application.DTOs.CourseDurations;
 using SchoolManagement.Application.DTOs.CourseInstructors;
+using SchoolManagement.Application.DTOs.CourseNomenees;
 using SchoolManagement.Application.DTOs.DefenseType;
 using SchoolManagement.Application.DTOs.District;
 using SchoolManagement.Application.DTOs.Division;
@@ -717,7 +718,29 @@ namespace SchoolManagement.Application.Profiles
 
             #endregion
 
-             
+            #region CourseNomenees Mappings  
+            CreateMap<CourseNomeneeDto, CourseNomenee>()
+                .ForPath(d => d.CourseName.Course, o => o.MapFrom(s => s.CourseName));
+            CreateMap<CourseNomenee, CourseNomeneeDto>()
+                  .ForMember(d => d.CourseDuration, o => o.MapFrom(s => s.CourseDuration.CourseTitle))
+                .ForMember(d => d.BaseSchoolName, o => o.MapFrom(s => s.BaseSchoolName.SchoolName))
+                .ForMember(d => d.CourseName, o => o.MapFrom(s => s.CourseName.Course))
+                .ForMember(d => d.BnaSubjectName, o => o.MapFrom(s => s.BnaSubjectName.SubjectName))
+                .ForMember(d => d.CourseModule, o => o.MapFrom(s => s.CourseModule.ModuleName))
+                .ForMember(d => d.BNASemester, o => o.MapFrom(s => s.BnaSemester.SemesterName))
+                .ForMember(d => d.MarkType, o => o.MapFrom(s => s.MarkType.ShortName))
+                .ForMember(d => d.Trainee, o => o.MapFrom(s => (s.Trainee.Pno + "_" + s.Trainee.Name)))
+                .ForMember(d => d.TraineeName, o => o.MapFrom(s => (s.Trainee.Name)))
+                .ForMember(d => d.TraineeRank, o => o.MapFrom(s => s.Trainee.Rank.Position))
+                .ForMember(d => d.SaylorRank, o => o.MapFrom(s => s.Trainee.SaylorRank.Name))
+                .ForMember(d => d.TraineeStatusId, o => o.MapFrom(s => s.Trainee.TraineeStatusId));
+
+            CreateMap<CourseNomenee, CreateCourseNomeneeDto>(); //eta create er dto na vaiya?
+            CreateMap<CourseNomenee, ModifiedCreateCourseNomeneeDto>().ReverseMap();
+
+            #endregion
+
+
             #region CourseBudgetAllocation Mappings
             CreateMap<CourseBudgetAllocationDto, CourseBudgetAllocation>().ReverseMap()
              .ForMember(d => d.TraineeName, o => o.MapFrom(s => s.Trainee.Name))

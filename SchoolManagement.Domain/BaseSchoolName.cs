@@ -18,6 +18,7 @@ namespace SchoolManagement.Domain
             //CourseDurationNbcdSchools = new HashSet<CourseDuration>();
             CourseGradingEntries = new HashSet<CourseGradingEntry>();
             CourseInstructors = new HashSet<CourseInstructor>();
+            CourseNomenees = new HashSet<CourseNomenee>();
             CourseModules = new HashSet<CourseModule>();
             CoursePlanCreates = new HashSet<CoursePlanCreate>();
             CourseSections = new HashSet<CourseSection>();
@@ -80,6 +81,8 @@ namespace SchoolManagement.Domain
         //public virtual ICollection<CourseDuration> CourseDurationNbcdSchools { get; set; }
         public virtual ICollection<CourseGradingEntry> CourseGradingEntries { get; set; }
         public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
         public virtual ICollection<CourseModule> CourseModules { get; set; }
         public virtual ICollection<CoursePlanCreate> CoursePlanCreates { get; set; }
         public virtual ICollection<CourseSection> CourseSections { get; set; }

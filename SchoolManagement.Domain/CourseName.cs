@@ -47,7 +47,9 @@ namespace SchoolManagement.Domain
             InterServiceCourseReports = new HashSet<InterServiceCourseReport>();
             GuestSpeakerQuationGroups = new HashSet<GuestSpeakerQuationGroup>();
             ForeignTrainingCourseReports = new HashSet<ForeignTrainingCourseReport>();
-          //  GuestSpeakerQuestionNames = new HashSet<GuestSpeakerQuestionName>();
+            //  GuestSpeakerQuestionNames = new HashSet<GuestSpeakerQuestionName>();
+            CourseNomenees = new HashSet<CourseNomenee>();
+
         }
 
         public int CourseNameId { get; set; }
@@ -99,6 +101,8 @@ namespace SchoolManagement.Domain
         public virtual ICollection<TraineeAssignmentSubmit> TraineeAssignmentSubmits { get; set; }
         public virtual ICollection<CourseBudgetAllocation> CourseBudgetAllocations { get; set; }
         public virtual ICollection<ForeignCourseOthersDocument> ForeignCourseOthersDocuments { get; set; }
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
         public virtual ICollection<GuestSpeakerQuationGroup> GuestSpeakerQuationGroups { get; set; }
         //public virtual ICollection<GuestSpeakerQuestionName> GuestSpeakerQuestionNames { get; set; }
     }

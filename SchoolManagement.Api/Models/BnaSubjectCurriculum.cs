@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SchoolManagement.Domain.Common;
 
-namespace SchoolManagement.Api.Models
+namespace SchoolManagement.Domain
 {
-    public partial class BnaSubjectCurriculum
+    public class BnaSubjectCurriculum : BaseDomainEntity
     {
         public BnaSubjectCurriculum()
         {
+            CourseNomenees = new HashSet<CourseNomenee>();
+
             BnaClassTests = new HashSet<BnaClassTest>();
             BnaSubjectNames = new HashSet<BnaSubjectName>();
+            CourseInstructors = new HashSet<CourseInstructor>();
+            SubjectMarks = new HashSet<SubjectMark>();
         }
 
         public int BnaSubjectCurriculumId { get; set; }
-        public string SubjectCurriculumName { get; set; }
+        public string SubjectCurriculumName { get; set; } = null!;
         public int? MenuPosition { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime DateCreated { get; set; }
-        public string LastModifiedBy { get; set; }
-        public DateTime? LastModifiedDate { get; set; }
         public bool IsActive { get; set; }
 
         public virtual ICollection<BnaClassTest> BnaClassTests { get; set; }
         public virtual ICollection<BnaSubjectName> BnaSubjectNames { get; set; }
+        public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
+        public virtual ICollection<SubjectMark> SubjectMarks { get; set; }
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
     }
 }

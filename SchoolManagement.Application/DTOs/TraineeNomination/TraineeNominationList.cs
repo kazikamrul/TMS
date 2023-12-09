@@ -11,6 +11,8 @@ namespace SchoolManagement.Application.DTOs.TraineeNomination
         public int AttendanceId { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? CourseNameId { get; set; }
+        public int? DepartmentId { get; set; }
+        public int? BnaSubjectCurriculumId { get; set; }
         public int? CourseDurationId { get; set; }
         public int? CourseAttendState { get; set; }
         public int? CourseSectionId { get; set; }

@@ -37,7 +37,7 @@ namespace SchoolManagement.Application.Features.IndividualBulletins.Handlers.Com
                         BaseSchoolNameId = bulletinList.BaseSchoolNameId,
                         CourseNameId = bulletinList.CourseNameId,
                         TraineeNominationId = bulletinList.TraineeNominationId,
-                        CourseInstructorId = x.courseInstructorId,
+                        CourseInstructorId = x.CourseInstructorId,
                         TraineeId =x.TraineeId,
                         Status = 0,
                         //EndDate = bulletinList.EndDate,

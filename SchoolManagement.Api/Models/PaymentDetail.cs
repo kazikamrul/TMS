@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolManagement.Domain;
+using System;
 using System.Collections.Generic;
 
 namespace SchoolManagement.Api.Models

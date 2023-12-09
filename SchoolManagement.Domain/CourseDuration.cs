@@ -13,6 +13,8 @@ namespace SchoolManagement.Domain
             Bulletins = new HashSet<Bulletin>();
             ClassRoutines = new HashSet<ClassRoutine>();
             CourseInstructors = new HashSet<CourseInstructor>();
+            CourseNomenees = new HashSet<CourseNomenee>();
+
             CoursePlanCreates = new HashSet<CoursePlanCreate>();
             CourseBudgetAllocations = new HashSet<CourseBudgetAllocation>();
             CourseWeeks = new HashSet<CourseWeek>();
@@ -97,6 +99,8 @@ namespace SchoolManagement.Domain
         public virtual ICollection<Bulletin> Bulletins { get; set; }
         public virtual ICollection<ClassRoutine> ClassRoutines { get; set; }
         public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
         public virtual ICollection<Document> Documents { get; set; }
         public virtual ICollection<InstallmentPaidDetail> InstallmentPaidDetails { get; set; }
         public virtual ICollection<CoursePlanCreate> CoursePlanCreates { get; set; }

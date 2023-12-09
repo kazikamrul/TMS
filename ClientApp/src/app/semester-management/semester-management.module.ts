@@ -18,6 +18,8 @@ import { NewBnasemesterdurationComponent } from './semesterduration/new-bnasemes
 import { BnasemesterdurationListComponent } from './semesterduration/bnasemesterduration-list/bnasemesterduration-list.component';
 import { TraineeNominationListComponent } from './traineenomination/traineenomination-list/traineenomination-list.component';
 import { NewTraineeNominationComponent } from './traineenomination/new-traineenomination/new-traineenomination.component';
+import { NewcoursesubjectsectionasignComponent } from './traineenomination/new-coursesubjectsectionasign/new-coursesubjectsectionasign.component';
+
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
@@ -26,6 +28,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     BnasemesterdurationListComponent,
     TraineeNominationListComponent,
     NewTraineeNominationComponent,
+    NewcoursesubjectsectionasignComponent,
   ],
   imports: [
     CommonModule,

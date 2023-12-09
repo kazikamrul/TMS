@@ -23,6 +23,8 @@ namespace SchoolManagement.Domain
             TraineeSectionSelections = new HashSet<TraineeSectionSelection>();
             SubjectMarks = new HashSet<SubjectMark>();
             CourseInstructors = new HashSet<CourseInstructor>();
+            CourseNomenees = new HashSet<CourseNomenee>();
+
         }
 
         public int BnaSemesterId { get; set; }
@@ -47,5 +49,8 @@ namespace SchoolManagement.Domain
         public virtual ICollection<TraineeSectionSelection> TraineeSectionSelections { get; set; }
         public virtual ICollection<SubjectMark> SubjectMarks { get; set; }
         public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
+
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
     }
 }

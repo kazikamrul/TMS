@@ -8,6 +8,8 @@ namespace SchoolManagement.Domain
         {
             BnaExamInstructorAssigns = new HashSet<BnaExamInstructorAssign>();
             BnaSubjectNames = new HashSet<BnaSubjectName>();
+            CourseNomenees = new HashSet<CourseNomenee>();
+
             CourseInstructors = new HashSet<CourseInstructor>();
             ClassRoutines = new HashSet<ClassRoutine>();
             SubjectMarks = new HashSet<SubjectMark>();
@@ -27,6 +29,8 @@ namespace SchoolManagement.Domain
         public virtual ICollection<BnaExamInstructorAssign> BnaExamInstructorAssigns { get; set; }
         public virtual ICollection<BnaSubjectName> BnaSubjectNames { get; set; }
         public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
         public virtual ICollection<ClassRoutine> ClassRoutines { get; set; }
         public virtual ICollection<SubjectMark> SubjectMarks { get; set; }
         public virtual ICollection<NewEntryEvaluation> NewEntryEvaluations { get; set; }

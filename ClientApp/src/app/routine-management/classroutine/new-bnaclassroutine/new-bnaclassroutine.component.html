@@ -47,7 +47,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
                       <mat-label>Course Title</mat-label>                        
-                      <mat-select formControlName="courseNameId">
+                      <mat-select formControlName=" ">
                         <mat-option  value="">--Select--</mat-option >
                           <mat-option *ngFor="let dropdown of selectedcoursedurationbyschoolname" [value]="dropdown.value" (onSelectionChange)="getselectedbnasubjectname(dropdown)">
                               {{dropdown.text}}  
@@ -59,20 +59,6 @@
                   </mat-form-field>
                 </div>
                 
-                <div *ngIf="role == userRole.BNASchool" class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3" appearance="outline">
-                      <mat-label>Semester</mat-label>                        
-                      <mat-select formControlName="courseModuleId" required>
-                        <mat-option  value="">--Select--</mat-option >
-                          <mat-option *ngFor="let dropdown of selectedCourseModuleByBaseSchoolAndCourseNameId" [value]="dropdown.value" (onSelectionChange)="onsemSelectionChangeGet(dropdown)">
-                              {{dropdown.text}} 
-                            </mat-option>                          
-                      </mat-select>
-                      <mat-error *ngIf="ClassRoutineForm.get('courseModuleId').hasError('required')">
-                        Semester is Required!
-                      </mat-error>
-                  </mat-form-field>
-                </div>
 
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">
@@ -88,7 +74,20 @@
                       </mat-error>
                   </mat-form-field>
                 </div>
-             
+                <div *ngIf="role == userRole.BNASchool" class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3" appearance="outline">
+                      <mat-label>Semester</mat-label>                        
+                      <mat-select formControlName="courseModuleId" required>
+                        <mat-option  value="">--Select--</mat-option >
+                          <mat-option *ngFor="let dropdown of selectedCourseModuleByBaseSchoolAndCourseNameId" [value]="dropdown.value">
+                              {{dropdown.text}} 
+                            </mat-option>                          
+                      </mat-select>
+                      <mat-error *ngIf="ClassRoutineForm.get('courseModuleId').hasError('required')">
+                        Semester is Required!
+                      </mat-error>
+                  </mat-form-field>
+                </div>
 
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3" appearance="outline">

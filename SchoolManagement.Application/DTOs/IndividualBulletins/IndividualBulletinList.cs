@@ -8,7 +8,7 @@ namespace SchoolManagement.Application.DTOs.IndividualBulletins
 {
     public class IndividualBulletinList
     {
-        public int? courseInstructorId { get; set; }
+        public int? CourseInstructorId { get; set; }
         public int? Status { get; set; }
         //public string? TraineePNo { get; set; }
         public int? TraineeId { get; set; }

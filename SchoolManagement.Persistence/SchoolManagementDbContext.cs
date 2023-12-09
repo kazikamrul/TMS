@@ -1150,6 +1150,61 @@ namespace SchoolManagement.Persistence
                     .HasConstraintName("FK_CourseInstructor_BnaSubjectCurriculum");
             });
 
+
+            modelBuilder.Entity<CourseNomenee>(entity =>
+            {
+                entity.HasOne(d => d.BaseSchoolName)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.BaseSchoolNameId)
+                    .HasConstraintName("FK_CourseNomenee_BaseSchoolName");
+
+                entity.HasOne(d => d.TraineeNomination)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.TraineeNominationId)
+                    .HasConstraintName("FK_TraineeNomination_courseNomenee");
+
+                entity.HasOne(d => d.BnaSubjectName)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.BnaSubjectNameId)
+                    .HasConstraintName("FK_CourseNomenee_BnaSubjectName");
+
+                entity.HasOne(d => d.CourseDuration)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.CourseDurationId)
+                    .HasConstraintName("FK_CourseNomenee_CourseDuration");
+
+                entity.HasOne(d => d.CourseModule)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.CourseModuleId)
+                    .HasConstraintName("FK_CourseNomenee_CourseModule");
+
+                entity.HasOne(d => d.CourseName)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.CourseNameId)
+                    .HasConstraintName("FK_CourseNomenee_CourseName");
+
+                entity.HasOne(d => d.Trainee)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.TraineeId)
+                    .HasConstraintName("FK_CourseNomenee_TraineeBioDataGeneralInfo");
+
+                entity.HasOne(d => d.BnaSemester)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.BnaSemesterId)
+                    .HasConstraintName("FK_CourseNomenee_BnaSemester");
+
+                entity.HasOne(d => d.Department)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.DepartmentId)
+                    .HasConstraintName("FK_CourseNomenee_Department");
+
+                entity.HasOne(d => d.BnaSubjectCurriculum)
+                    .WithMany(p => p.CourseNomenees)
+                    .HasForeignKey(d => d.BnaSubjectCurriculumId)
+                    .HasConstraintName("FK_CourseNomenee_BnaSubjectCurriculum");
+            });
+
+
             modelBuilder.Entity<CourseModule>(entity =>
             {
                 entity.HasOne(d => d.BaseSchoolName)
@@ -3379,6 +3434,7 @@ namespace SchoolManagement.Persistence
         public virtual DbSet<CourseDuration> CourseDuration { get; set; } = null!;
         public virtual DbSet<CourseGradingEntry> CourseGradingEntry { get; set; } = null!;
         public virtual DbSet<CourseInstructor> CourseInstructor { get; set; } = null!;
+        public virtual DbSet<CourseNomenee> CourseNomenee { get; set; } = null!;
         public virtual DbSet<CourseModule> CourseModule { get; set; } = null!;
         public virtual DbSet<CourseName> CourseName { get; set; } = null!;
         public virtual DbSet<CoursePlanCreate> CoursePlanCreate { get; set; } = null!;

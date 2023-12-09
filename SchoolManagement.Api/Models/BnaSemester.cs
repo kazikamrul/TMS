@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SchoolManagement.Domain.Common;
 
-namespace SchoolManagement.Api.Models
+namespace SchoolManagement.Domain
 {
-    public partial class BnaSemester
+    public class BnaSemester : BaseDomainEntity
     {
         public BnaSemester()
         {
@@ -22,15 +21,15 @@ namespace SchoolManagement.Api.Models
             TraineeBioDataOthers = new HashSet<TraineeBioDataOther>();
             TraineePictures = new HashSet<TraineePicture>();
             TraineeSectionSelections = new HashSet<TraineeSectionSelection>();
+            SubjectMarks = new HashSet<SubjectMark>();
+            CourseInstructors = new HashSet<CourseInstructor>();
+            CourseNomenees = new HashSet<CourseNomenee>();
+
         }
 
         public int BnaSemesterId { get; set; }
-        public string SemesterName { get; set; }
+        public string SemesterName { get; set; } = null!;
         public int? MenuPosition { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime DateCreated { get; set; }
-        public string LastModifiedBy { get; set; }
-        public DateTime? LastModifiedDate { get; set; }
         public bool IsActive { get; set; }
 
         public virtual ICollection<Attendance> Attendances { get; set; }
@@ -48,5 +47,10 @@ namespace SchoolManagement.Api.Models
         public virtual ICollection<TraineeBioDataOther> TraineeBioDataOthers { get; set; }
         public virtual ICollection<TraineePicture> TraineePictures { get; set; }
         public virtual ICollection<TraineeSectionSelection> TraineeSectionSelections { get; set; }
+        public virtual ICollection<SubjectMark> SubjectMarks { get; set; }
+        public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
+
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
     }
 }

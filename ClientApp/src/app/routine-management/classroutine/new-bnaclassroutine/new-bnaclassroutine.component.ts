@@ -669,12 +669,12 @@ export class NewBnaClassRoutineComponent implements OnInit {
       this.ClassRoutineForm.get('courseDurationId').setValue(courseDurationId);
     } 
     
-  /*  this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
+   this.ClassRoutineService.getSelectedCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
       console.log(this.selectedWeek)
       console.log("Course Week")
     });    
-*/
+ 
     
     this.ClassRoutineService.getSelectedCourseModuleByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId).subscribe(res=>{
       this.selectedCourseModuleByBaseSchoolAndCourseNameId = res;    
@@ -692,7 +692,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
 
   onsemSelectionChangeGet(dropdown){
     console.log('sfsdf ffff');
-    const id = this.route.snapshot.paramMap.get('classRoutineId'); 
+   // const id = this.route.snapshot.paramMap.get('classRoutineId'); 
 
     var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
     var courseNameArr = this.ClassRoutineForm.value['courseNameId'].split('_');
@@ -701,7 +701,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   //  this.courseName=dropdown.text;
    // this.ClassRoutineForm.get('courseName').setValue(dropdown.text);
     //this.ClassRoutineForm.get('courseNameId').setValue(courseNameId);
-   this.ClassRoutineForm.get('courseDurationId').setValue(dropdown.value);
+   //this.ClassRoutineForm.get('courseDurationId').setValue(dropdown.value);
 
     console.log(baseSchoolNameId)
     console.log(courseDurationId)
@@ -709,13 +709,14 @@ export class NewBnaClassRoutineComponent implements OnInit {
     console.log(dropdown.value)
     console.log('sfsdf ffff')
     
+    /*
    this.ClassRoutineService.getSelectedBnaCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId).subscribe(res=>{
       this.selectedWeek=res;
       console.log(this.selectedWeek)
       console.log("Course Week")
     }); 
 
- 
+ */
   }
 
   

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolManagement.Domain;
+using System;
 using System.Collections.Generic;
 
 namespace SchoolManagement.Api.Models
@@ -17,6 +18,8 @@ namespace SchoolManagement.Api.Models
             BnaExamSchedules = new HashSet<BnaExamSchedule>();
             ClassRoutines = new HashSet<ClassRoutine>();
             CourseInstructors = new HashSet<CourseInstructor>();
+            CourseNomenees = new HashSet<CourseNomenee>();
+
             CourseTasks = new HashSet<CourseTask>();
             GuestSpeakerQuationGroups = new HashSet<GuestSpeakerQuationGroup>();
             InstructorAssignments = new HashSet<InstructorAssignment>();
@@ -91,6 +94,9 @@ namespace SchoolManagement.Api.Models
         public virtual ICollection<BnaExamSchedule> BnaExamSchedules { get; set; }
         public virtual ICollection<ClassRoutine> ClassRoutines { get; set; }
         public virtual ICollection<CourseInstructor> CourseInstructors { get; set; }
+
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
         public virtual ICollection<CourseTask> CourseTasks { get; set; }
         public virtual ICollection<GuestSpeakerQuationGroup> GuestSpeakerQuationGroups { get; set; }
         public virtual ICollection<InstructorAssignment> InstructorAssignments { get; set; }

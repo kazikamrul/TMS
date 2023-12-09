@@ -63,6 +63,8 @@ namespace SchoolManagement.Domain
             CovidVaccines = new HashSet<CovidVaccine>();
             ForeignTrainingCourseReports = new HashSet<ForeignTrainingCourseReport>();
             //GuestSpeakerQuestionNames = new HashSet<GuestSpeakerQuestionName>();
+            CourseNomenees = new HashSet<CourseNomenee>();
+
         }
 
         public int TraineeId { get; set; }
@@ -209,6 +211,8 @@ namespace SchoolManagement.Domain
         public virtual ICollection<MilitaryTraining> MilitaryTrainings { get; set; }
         public virtual ICollection<CovidVaccine> CovidVaccines { get; set; }
         public virtual ICollection<ForeignTrainingCourseReport> ForeignTrainingCourseReports { get; set; }
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
+
         //public virtual ICollection<GuestSpeakerQuestionName> GuestSpeakerQuestionNames { get; set; }
     }
 }

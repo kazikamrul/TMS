@@ -16,6 +16,7 @@ namespace SchoolManagement.Domain
             MigrationDocuments = new HashSet<MigrationDocument>();
             NewEntryEvaluations = new HashSet<NewEntryEvaluation>();
             Notices = new HashSet<Notice>();
+            CourseNomenees = new HashSet<CourseNomenee>();
             TdecGroupResults = new HashSet<TdecGroupResult>();
             TraineeAssissmentGroups = new HashSet<TraineeAssissmentGroup>();
             GuestSpeakerGroupResults = new HashSet<GuestSpeakerGroupResult>();
@@ -25,6 +26,8 @@ namespace SchoolManagement.Domain
         public int? CourseDurationId { get; set; }
         public int? BnaSemesterDurationId { get; set; }
         public int? CourseNameId { get; set; }
+        public int? DepartmentId { get; set; }
+        public int? BnaSubjectCurriculumId { get; set; }
         public int? ExamAttemptTypeId { get; set; }
         public int? ExamTypeId { get; set; }
         public int? TraineeId { get; set; }
@@ -68,6 +71,9 @@ namespace SchoolManagement.Domain
         public virtual WithdrawnDoc? WithdrawnDoc { get; set; } 
         public virtual WithdrawnType? WithdrawnType { get; set; }
         public virtual BnaSemesterDuration? BnaSemesterDuration { get; set; }
+        public virtual Department? Department { get; set; }
+        public virtual BnaSubjectCurriculum? BnaSubjectCurriculum { get; set; }
+
         public virtual ICollection<BnaExamMark> BnaExamMarks { get; set; }
         public virtual ICollection<ExamCenterSelection> ExamCenterSelections { get; set; }
         public virtual ICollection<FamilyNomination> FamilyNominations { get; set; }
@@ -81,6 +87,7 @@ namespace SchoolManagement.Domain
         public virtual ICollection<TdecGroupResult> TdecGroupResults { get; set; }
         public virtual ICollection<TraineeAssissmentGroup> TraineeAssissmentGroups { get; set; }
         public virtual ICollection<GuestSpeakerGroupResult> GuestSpeakerGroupResults { get; set; }
+        public virtual ICollection<CourseNomenee> CourseNomenees { get; set; }
 
     }
 }

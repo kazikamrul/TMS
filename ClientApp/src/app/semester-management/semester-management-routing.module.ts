@@ -7,6 +7,7 @@ import { BnasemesterdurationListComponent } from './semesterduration/bnasemester
 import { NewBnasemesterdurationComponent } from './semesterduration/new-bnasemesterduration/new-bnasemesterduration.component';
 import { TraineeNominationListComponent } from './traineenomination/traineenomination-list/traineenomination-list.component';
 import { NewTraineeNominationComponent } from './traineenomination/new-traineenomination/new-traineenomination.component';
+import { NewcoursesubjectsectionasignComponent } from './traineenomination/new-coursesubjectsectionasign/new-coursesubjectsectionasign.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,11 @@ const routes: Routes = [
   },
   { path: 'add-traineenomination/:bnaSemesterDurationId',   
   component: NewTraineeNominationComponent, 
+  },
+  
+  {
+    path: 'add-bnacoursesubjectsectionasign/:traineeNominationId',
+    component: NewcoursesubjectsectionasignComponent,
   },
 
 ];

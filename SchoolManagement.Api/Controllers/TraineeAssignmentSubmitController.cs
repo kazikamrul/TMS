@@ -101,7 +101,7 @@ public class TraineeAssignmentSubmitController : ControllerBase
 
     [HttpGet]
     [Route("get-traineeAssignmentSubmitListByInstructorId")]
-    public async Task<ActionResult<List<TraineeAssignmentSubmitDto>>> GetTraineeAssignmentListByParameterRequest(int traineeId,int instructorId,int bnaSubjectNameId,int baseSchoolNameId,int courseNameId,int courseDurationId, int courseInstructorId, int instructorAssignmentId)
+    public async Task<ActionResult<List<TraineeAssignmentSubmitDto>>> GetTraineeAssignmentListByParameterRequest(int traineeId,int instructorId,int bnaSubjectNameId,int baseSchoolNameId,int courseNameId,int courseDurationId, int CourseInstructorId, int instructorAssignmentId)
     {
         var TraineeAssignmentSubmitsList = await _mediator.Send(new GetTraineeAssignmentListByParameterRequest
         {
@@ -111,7 +111,7 @@ public class TraineeAssignmentSubmitController : ControllerBase
             BaseSchoolNameId = baseSchoolNameId,
             CourseNameId =courseNameId,
             CourseDurationId = courseDurationId,
-            CourseInstructorId=courseInstructorId,
+            CourseInstructorId=CourseInstructorId,
             InstructorAssignmentId =instructorAssignmentId
         });
         return Ok(TraineeAssignmentSubmitsList);

@@ -16,8 +16,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { TraineeNomination } from '../../models/traineenomination';
 import { CourseDurationService } from 'src/app/course-management/service/courseduration.service';
-import { ClassRoutineService } from 'src/app/routine-management/service/classroutine.service'
- 
 
 @Component({
   selector: 'app-new-traineenomination',
@@ -37,16 +35,16 @@ export class NewTraineeNominationComponent implements OnInit {
   selectedLocationType:SelectedModel[];
   selecteddoc:SelectedModel[];
   selectedTrainee:SelectedModel[];
-  selectedCourseSection:SelectedModel[];
-  courseSectionList:SelectedModel[];
-  courseSectionId:any;
-  baseSchoolId:any;
+  
+  selectedSubjectCurriculum: SelectedModel[];
+  selectedDepartment: SelectedModel[];
   traineeId:number;
   traineeInfoById:any;
   courseDurationId:any;
   courseNameId:any;
   bnaSemesterDurationId:any;
   bnaSemesterId:any;
+  department: any;
   isLoading = false;
   nominatedPercentageList:any[];
   nominatedPercentageListCount:number;
@@ -79,7 +77,7 @@ export class NewTraineeNominationComponent implements OnInit {
 
   
 
-  constructor(private snackBar: MatSnackBar,private courseDutartionService: CourseDurationService,private courseDurationService: CourseDurationService,private bioDataGeneralInfoService: BIODataGeneralInfoService,private classRoutineService: ClassRoutineService,private BNASemesterDurationService: BNASemesterDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
+  constructor(private snackBar: MatSnackBar,private courseDurationService: CourseDurationService,private bioDataGeneralInfoService: BIODataGeneralInfoService,private BNASemesterDurationService: BNASemesterDurationService,private confirmService: ConfirmService,private CodeValueService: CodeValueService,private TraineeNominationService: TraineeNominationService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
  
   ngOnInit(): void {
    
@@ -88,14 +86,10 @@ export class NewTraineeNominationComponent implements OnInit {
     //this.courseDurationId = this.route.snapshot.paramMap.get('courseDurationId'); 
     this.bnaSemesterDurationId = this.route.snapshot.paramMap.get('bnaSemesterDurationId'); 
 
- 
-
-
     this.BNASemesterDurationService.find(Number(this.bnaSemesterDurationId)).subscribe(res=>{
        this.courseDurationId = res.courseDurationId;
        this.bnaSemesterDurationId = res.bnaSemesterDurationId;
        //this.courseDurationId = res.courseDurationId;
-      // this.baseSchoolId=res.baseSchoolId; 
        this.bnaSemesterId = res.bnaSemesterId;
        console.log(res.bnaSemesterId)
        console.log("res.bnaSemesterId")
@@ -105,20 +99,13 @@ export class NewTraineeNominationComponent implements OnInit {
        console.log(res.bnaSemesterName)
        console.log("res.semester")
        this.startDate = res.startDate;
-       this.endDate = res.endDate; 
+       this.endDate = res.endDate;
+       console.log(res.endDate)
+       console.log("res.endDate")
        //this.TraineeNominationForm.get('bnaSemesterId').setValue(res.bnaSemesterId);
-
        this.TraineeNominationForm.get('courseDurationId').setValue(res.courseDurationId);
-
        this.TraineeNominationForm.get('bnaSemesterDurationId').setValue(res.bnaSemesterDurationId);
-
-       //this.TraineeNominationForm.get('courseSectionId').setValue(res.courseSectionId);
-      
-     
-
-     
-       this.getCourseSectionByDurationId(this.courseDurationId);
-
+       
       console.log("res")
       console.log(res)
       console.log("res")
@@ -130,17 +117,7 @@ export class NewTraineeNominationComponent implements OnInit {
         this.courseTitle = res.courseTitle;
         console.log("res cd")
         console.log(res)
-        console.log("res cd") 
-
-        this.classRoutineService.getselectedByCourseSection(this.courseNameId).subscribe(res=>{
-          this.selectedCourseSection=res; 
-         
-        //  this.TraineeNominationForm.get('courseSectionId').setValue(res.courseSectionId);
-          //this.TraineeNominationForm.get('courseSectionId').setValue(res.courseSectionId);
-
-          console.log(this.courseSectionId);
-        });
-
+        console.log("res cd")
         // this.BNASemesterDurationService.find(Number(this.courseDurationId)).subscribe(res=>{
         //   this.courseNameId = res.courseNameId;
         //   this.TraineeNominationForm.get('courseNameId').setValue(res.courseNameId);
@@ -151,11 +128,7 @@ export class NewTraineeNominationComponent implements OnInit {
         //   console.log(res)
         //   console.log("res cd")
         // });
-       
       });
- 
-      
-
     });
   
     this.TraineeNominationService.findByCourseDuration(+this.courseDurationId).subscribe(
@@ -220,8 +193,9 @@ export class NewTraineeNominationComponent implements OnInit {
     this.getselectedWithdrawnDoc();
     this.getSelectedTrainee();
     this.getTraineeNominationsByBnaSemesterDurationId(this.bnaSemesterDurationId);
-  
-   
+    
+    this.getSelectedSubjectCurriculum();
+    this.getSelectedDepartment();
    // this.getSelectedTraineeByPno();
   }
 
@@ -233,7 +207,6 @@ export class NewTraineeNominationComponent implements OnInit {
       courseNameId:[''],
       traineeId:[''],
       traineeName:[''],
-      courseSectionId :[],
       traineeCourseStatusId:[],
       saylorRankId:[],
       rankId:[],
@@ -244,6 +217,9 @@ export class NewTraineeNominationComponent implements OnInit {
       withdrawnDocId:[],    
       withdrawnRemarks:[''],
       withdrawnDate:[], 
+      
+      departmentId:[],
+      bnaSubjectCurriculumId:[],
       status:[1],
       isActive: [true],    
     })
@@ -262,11 +238,6 @@ export class NewTraineeNominationComponent implements OnInit {
     this.TraineeNominationForm.get('traineeId').setValue(item.value);
     this.TraineeNominationForm.get('traineeName').setValue(item.text);
     this.getTraineeInfoByTraineeId(this.traineeId);
-
-
-    this.courseNameId=item.value;
-    console.log("this.courseNameId");
-
   }
   
 //autocomplete
@@ -322,6 +293,23 @@ getSelectedTraineeByPno(pno){
   }
   
 
+  getSelectedSubjectCurriculum(){
+    this.TraineeNominationService.getSelectedSubjectCurriculum().subscribe(res=>{
+      this.selectedSubjectCurriculum=res
+    });
+  } 
+  onStatus(dropdown) {
+    if (dropdown.isUserInput) {
+      this.department = dropdown.source.value;
+      console.log(this.department);
+    }
+  }
+  getSelectedDepartment(){
+    this.TraineeNominationService.getSelectedDepartment().subscribe(res=>{
+      this.selectedDepartment=res;     
+    })
+  }
+
   getselectedTraineeCourseStatus(){
     this.TraineeNominationService.getselectedTraineeCourseStatus().subscribe(res=>{
       this.selectedcoursestatus=res
@@ -333,31 +321,6 @@ getSelectedTraineeByPno(pno){
         this.router.navigate([currentUrl]);
     });
   }
-
-
-
-  onSectionSelectionGet( ){  
-    this.courseSectionId = this.TraineeNominationForm.value['courseSectionId'];
-    console.log( this.courseSectionId )
-    console.log( "zchzjchj")
-   // this.TraineeNominationForm.get('courseSectionId').setValue(res.courseSectionId);
-  }
-
-  getCourseSectionByDurationId(courseDurationId){
-    console.log('dfsdf sfs hasan');
-    console.log(courseDurationId);
-    this.courseDutartionService.find(courseDurationId).subscribe(res=>{
-      console.log('dfsdf sfs hasan');
-      console.log(res);
-      console.log('dfsdf sfs');
-      this.courseDutartionService.getSelectedCourseSectionsBySchoolIdAndCourseId(res.baseSchoolNameId,res.courseNameId).subscribe(res=>{
-        this.courseSectionList=res;
-        console.log(this.courseSectionList);
-      });
-    });
-  }
-
-
 
   onSubmit() {
     const id = this.TraineeNominationForm.get('traineeNominationId').value;   
@@ -382,12 +345,8 @@ getSelectedTraineeByPno(pno){
           })
         }
       })
-    }
-    else
-     {
+    }else {
       this.loading = true;
-     // this.TraineeNominationForm.get('courseSectionId').setValue(res.courseSectionId);
-
       this.TraineeNominationService.submit(this.TraineeNominationForm.value).subscribe(response => {
         // this.router.navigateByUrl('/semester-management/traineenomination-list/'+this.courseDurationId);
         this.getTraineeNominationsByBnaSemesterDurationId(this.bnaSemesterDurationId);

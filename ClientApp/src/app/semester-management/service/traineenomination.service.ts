@@ -173,6 +173,14 @@ export class TraineeNominationService {
     ); 
   }
 
+  
+  getSelectedDepartment(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/eepartment/get-selectedDepartments')
+   }
+  getSelectedSubjectCurriculum(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-curriculum/get-selectedBnaSubjectCurriculums')
+  } 
+  
 
   getTraineeNominations(pageNumber, pageSize,searchText) {
 

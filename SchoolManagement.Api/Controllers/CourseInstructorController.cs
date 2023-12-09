@@ -18,7 +18,7 @@ public class CourseInstructorController : ControllerBase
     }
 
     [HttpGet]
-    [Route("get-courseInstructors")]
+    [Route("get-CourseInstructors")]
     public async Task<ActionResult<List<CourseInstructorDto>>> Get([FromQuery] QueryParams queryParams)
     {
         var CourseInstructors = await _mediator.Send(new GetCourseInstructorListRequest { QueryParams = queryParams });
@@ -26,7 +26,7 @@ public class CourseInstructorController : ControllerBase
     }
 
     [HttpGet]
-    [Route("get-courseInstructorDetail/{id}")]
+    [Route("get-CourseInstructorDetail/{id}")]
     public async Task<ActionResult<CourseInstructorDto>> Get(int id)
     {
         var CourseInstructor = await _mediator.Send(new GetCourseInstructorDetailRequest { CourseInstructorId = id });
@@ -36,7 +36,7 @@ public class CourseInstructorController : ControllerBase
     [HttpPost]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
-    [Route("save-courseInstructor")]
+    [Route("save-CourseInstructor")]
     public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] ModifiedCreateCourseInstructorDto CourseInstructor)
     {
         var command = new CreateCourseInstructorCommand { CourseInstructorDto = CourseInstructor };
@@ -48,7 +48,7 @@ public class CourseInstructorController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("update-courseInstructor/{id}")]
+    [Route("update-CourseInstructor/{id}")]
     public async Task<ActionResult> Put([FromBody] CourseInstructorDto CourseInstructor)
     {
         var command = new UpdateCourseInstructorCommand { CourseInstructorDto = CourseInstructor };
@@ -60,7 +60,7 @@ public class CourseInstructorController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("delete-courseInstructor/{id}")]
+    [Route("delete-CourseInstructor/{id}")]
     public async Task<ActionResult> Delete(int id)
     {
         var command = new DeleteCourseInstructorCommand { CourseInstructorId = id };
@@ -69,7 +69,7 @@ public class CourseInstructorController : ControllerBase
     }
 
     [HttpGet]
-    [Route("get-courseInstructorByParameters")]
+    [Route("get-CourseInstructorByParameters")]
 
     public async Task<ActionResult> GetCourseInstructorByParameters(int baseSchoolNameId, int bnaSubjectNameId, int courseModuleId, int courseNameId, int courseDurationId, int courseSectionId)
     {
@@ -87,7 +87,7 @@ public class CourseInstructorController : ControllerBase
 
 
     [HttpGet]
-    [Route("get-courseInstructorByCourseDurationIdandSubjectNameId")]
+    [Route("get-CourseInstructorByCourseDurationIdandSubjectNameId")]
     public async Task<ActionResult> GetCourseInstructorByCourseDurationAndSubjectNameId(int bnaSubjectNameId, int courseNameId, int courseDurationId)
     {
         var CourseInstructorByParameters = await _mediator.Send(new GetCourseInstructorByCourseDurationAndSubjectNameIdRequest
@@ -177,7 +177,7 @@ public class CourseInstructorController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType]
-    [Route("stop-courseinstructor/{id}")] 
+    [Route("stop-CourseInstructor/{id}")] 
     public async Task<ActionResult> StopCourseInstructor(int id)
     {
         var command = new StopCourseInstructorCommand { CourseInstructorId = id };
@@ -189,7 +189,7 @@ public class CourseInstructorController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesDefaultResponseType] 
-    [Route("running-courseinstructor/{id}")]
+    [Route("running-CourseInstructor/{id}")]
     public async Task<ActionResult> RunningCourseInstructor(int id)
     {
         var command = new RunningCourseInstructorCommand { CourseInstructorId = id };
@@ -201,14 +201,14 @@ public class CourseInstructorController : ControllerBase
     [Route("get-selectedCourseInstructorIdByParameterRequest")]
     public async Task<ActionResult> GetSelectedCourseInstructorIdByParameterRequest(int baseSchoolNameId, int courseDurationId,int bnaSubjectNameId,int traineeId)
     {
-        var courseInstructorId = await _mediator.Send(new GetSelectedCourseInstructorIdByParametersRequest
+        var CourseInstructorId = await _mediator.Send(new GetSelectedCourseInstructorIdByParametersRequest
         {
             BaseSchoolNameId=baseSchoolNameId,
             CourseDurationId =courseDurationId,
             BnaSubjectNameId =bnaSubjectNameId,
             TraineeId =traineeId
         });
-        return Ok(courseInstructorId);
+        return Ok(CourseInstructorId);
     }
 
 
@@ -216,15 +216,15 @@ public class CourseInstructorController : ControllerBase
     [Route("get-todayClassScheduleByCourseInstructorId")]
     public async Task<ActionResult> GetTodayClassScheduleByCourseInstructorId(int traineeId)
     {
-        var courseInstructorId = await _mediator.Send(new GetTodayClassScheduleByCourseInstructorIdSpRequest
+        var CourseInstructorId = await _mediator.Send(new GetTodayClassScheduleByCourseInstructorIdSpRequest
         {
             TraineeId =traineeId
         });
-        return Ok(courseInstructorId);
+        return Ok(CourseInstructorId);
     }
 
     [HttpGet]
-    [Route("get-courseInstructorListForBnaByParameters")]
+    [Route("get-CourseInstructorListForBnaByParameters")]
     public async Task<ActionResult> GetCourseInstructorListForBnaByParameters(int baseSchoolNameId, int bnaSubjectNameId, int bnaSemesterId, int courseNameId, int courseDurationId, int courseSectionId)
     {
         var CourseInstructorByParameters = await _mediator.Send(new GetCourseInstructorListForBnaByParametersRequest

@@ -287,4 +287,8 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   delete(id:number){
     return this.http.delete(this.baseUrl + '/class-routine/delete-classRoutine/'+id);
   }
+
+
+
+
 }
