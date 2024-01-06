@@ -1,6 +1,7 @@
 export interface ClassRoutine {
       classRoutineId: number;
       courseModuleId:number,
+      BnaSemesterId: number,
       classPeriodId: number,
       baseSchoolNameId:number,
       baseSchoolName:string,

@@ -67,9 +67,10 @@ public class AttendanceController : ControllerBase
     [ProducesResponseType(400)]
     [Route("save-attendancelist")]
 
-    public async Task<ActionResult<BaseCommandResponse>> SaveAttendanceList([FromBody] List<CreateAttendanceListDto> attendance)
+    public async Task<ActionResult<BaseCommandResponse>> SaveAttendanceList([FromBody] List<CreateAttendanceListDto> attendances)
     {
-        var command = new CreateAttendanceListCommand { AttendanceListDto = attendance };
+        var command = new CreateAttendanceListCommand { AttendanceListDto = attendances };
+        var rrrr = command;
         var response = await _mediator.Send(command);
         return Ok(response);
     }

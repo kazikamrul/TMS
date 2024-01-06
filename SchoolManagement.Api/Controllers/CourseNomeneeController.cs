@@ -1,5 +1,5 @@
 ﻿using SchoolManagement.Application;
-using SchoolManagement.Application.DTOs.CourseNomenees;
+using SchoolManagement.Application.DTOs.CourseNomenees; 
 using SchoolManagement.Application.Features.CourseNomenees.Requests.Commands;
 using SchoolManagement.Application.Features.CourseNomenees.Requests.Queries;
 
@@ -37,12 +37,78 @@ public class CourseNomeneeController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [Route("save-CourseNomenee")]
-    public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] ModifiedCreateCourseNomeneeDto CourseNomenee)
+    public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] CreateCourseListNomeneeDto CourseNomenee)
     {
-        var command = new CreateCourseNomeneeCommand { CourseNomeneeDto = CourseNomenee };
+        var command = new CreateCourseNomeneeListCommand { CourseListNomeneeDto = CourseNomenee };
         var response = await _mediator.Send(command);
         return Ok(response);
     }
+   /*   [HttpPut]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    [Route("update-CourseNomenees")]
+    public async Task<ActionResult<BaseCommandResponse>> upPost([FromBody] CreateCourseListNomeneeDto CourseNomenee)
+    {
+        var command = new UpdateCourseNomeneeListCommand { CourseListNomeneeDto = CourseNomenee };
+        var response = await _mediator.Send(command);
+        return Ok(response);
+    }
+       public async Task<ActionResult<BaseCommandResponse>> SaveAttendanceList([FromBody] CreateCourseListNomeneeDto nomination)
+       {
+           var command = new CreateCourseNomeneeListCommand { CourseListNomeneeDto = nomination };
+           var response = await _mediator.Send(command);
+           return Ok(response);
+       }
+
+         public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] ModifiedCreateCourseNomeneeDto CourseNomenee)
+       {
+           var command = new CreateCourseNomeneeCommand { CourseNomeneeDto = CourseNomenee };
+           var response = await _mediator.Send(command);
+           return Ok(response);
+       }
+
+       public async Task<ActionResult<BaseCommandResponse>> SaveAttendanceList([FromBody] List<CreateCourseListNomeneeDto> attendances)
+       {
+           var command = new CreateCourseNomeneeListCommand { CourseListNomeneeDto = attendances };
+           var rrrr = command;
+           var response = await _mediator.Send(command);
+           return Ok(response);
+       }
+    public async Task<ActionResult<BaseCommandResponse>> Post([FromBody] ModifiedCreateCourseNomeneeDto CourseNomenee)
+       {
+           var command = new CreateCourseNomeneeCommand { CourseNomeneeDto = CourseNomenee };
+           var response = await _mediator.Send(command);
+           return Ok(response);
+       }
+
+
+       [HttpPost]
+       [ProducesResponseType(200)]
+       [ProducesResponseType(400)]
+       [Route("save-CourseNomeneeList")]
+
+       public async Task<ActionResult<BaseCommandResponse>> SaveCourseNomeneelist([FromBody] List<CreateCourseListNomeneeDto> subjectSectionForm)
+       {
+           var command = new CreateCourseNomeneeListCommand { CreateCourseListNomeneeDto = subjectSectionForm };
+           var rrrr = command;
+           var response = await _mediator.Send(command);
+           return Ok(response);
+       }
+
+       [HttpPost]
+       [ProducesResponseType(200)]
+       [ProducesResponseType(400)]
+       [Route("save-CourseNomeneelist")]
+
+       public async Task<ActionResult<BaseCommandResponse>> SaveCourseNomeneelist([FromBody] CreateCourseListNomeneeDto courseNomeneess)
+       {
+           var command = new CreateCourseNomeneeCommand { CourseNomeneeDto = courseNomeneess };
+           var response = await _mediator.Send(command);
+           return Ok(response);
+           //return Ok();
+       }
+    */
 
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -84,5 +150,31 @@ public class CourseNomeneeController : ControllerBase
         });
         return Ok(CourseNomeneeByParameters);
     }
+
+
+
+    [HttpGet]
+    [Route("get-BnaNomeneeSubjectSectionAsign")]
+    public async Task<ActionResult> GetBnaNomeneeSubjectSectionAsign(int traineeNominationId)
+    {
+        var CourseNomenees = await _mediator.Send(new GetBnaNomeneeSubjectSectionAsignRequest
+        {
+            traineeNominationId = traineeNominationId
+        });
+        return Ok(CourseNomenees);
+    }
+
+
+    [HttpGet]
+    [Route("get-BnaNomeneeSubjectSectionAlredyAsign")]
+    public async Task<ActionResult> GetBnaNomeneeSubjectSectionAlredyAsign(int traineeNominationId)
+    {
+        var CourseNomenees = await _mediator.Send(new GetBnaNomeneeSubjectSectionAlredyAsignRequest
+        {
+            traineeNominationId = traineeNominationId
+        });
+        return Ok(CourseNomenees);
+    }
+
 
 }

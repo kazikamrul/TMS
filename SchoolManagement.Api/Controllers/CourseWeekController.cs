@@ -89,13 +89,14 @@ public class CourseWeekController : ControllerBase
 
     [HttpGet]
     [Route("get-selectedBnaCourseWeeks")]
-    public async Task<ActionResult<List<SelectedModel>>> getselectedBnaCourseWeek(int baseSchoolNameId, int courseDurationId, int courseNameId, int? status)
+    public async Task<ActionResult> getselectedBnaCourseWeek(int baseSchoolNameId, int courseDurationId, int courseNameId, int bnaSemesterId, int? status)
     {
-        var selectedCourseWeek = await _mediator.Send(new GetSelectedCourseWeekRequest
+        var selectedCourseWeek = await _mediator.Send(new GetSelectedCourseWeekBnaRequest
         {
             BaseSchoolNameId = baseSchoolNameId,
             CourseDurationId = courseDurationId,
             CourseNameId = courseNameId,
+            BnaSemesterId = bnaSemesterId,
             Status = status
         });
         return Ok(selectedCourseWeek);

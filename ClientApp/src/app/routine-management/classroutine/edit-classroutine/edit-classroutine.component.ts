@@ -300,6 +300,7 @@ export class EditClassRoutineComponent implements OnInit {
       console.log(this.editedRoutineList[i])
     }
     this.EditedClassRoutineForm.patchValue({ RoutineList: this.editedRoutineList });
+    console.log(this.EditedClassRoutineForm.patchValue({ RoutineList: this.editedRoutineList }))
   }
 
   clearList() {

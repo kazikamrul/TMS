@@ -166,6 +166,7 @@ export class TraineeNominationService {
   updateTraineeNomination(id: number,model: any){
     return this.http.put(this.baseUrl + '/trainee-nomination/update-traineereligation/'+id, model);
   }
+  
   updateTraineeNominationList(model:any){
     return this.http.post<PostResponse>(this.baseUrl + '/trainee-nomination/update-traineeNominationList', model).pipe(
       map((TraineeNomination: PostResponse) => {
@@ -197,6 +198,7 @@ export class TraineeNominationService {
       })
     );
   } 
+  
   delete(id:number){
     return this.http.delete(this.baseUrl + '/trainee-nomination/delete-traineeNomination/'+id);
   }

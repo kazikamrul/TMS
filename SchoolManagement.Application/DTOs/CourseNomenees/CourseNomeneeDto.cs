@@ -26,7 +26,7 @@ namespace SchoolManagement.Application.DTOs.CourseNomenees
         public bool? IsActive { get; set; }
         public int? ExamMarkEntry { get; set; } 
 
-
+       
         public string? CourseDuration { get; set; }
         public string? BaseSchoolName { get; set; }
         public string? BnaSubjectName { get; set; }
@@ -39,6 +39,6 @@ namespace SchoolManagement.Application.DTOs.CourseNomenees
         public string? TraineePno { get; set; }
         public string? TraineeRank { get; set; }
         public string? SaylorRank { get; set; }
-        public int? TraineeStatusId { get; set; }
+        public int? TraineeStatusId { get; set; } 
     }
 }

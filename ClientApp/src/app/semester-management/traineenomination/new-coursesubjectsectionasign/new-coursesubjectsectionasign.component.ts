@@ -1,23 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormArray, Validators,FormControl,FormGroupDirective,NgForm} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AttendanceService } from '../../../attendance-management/service/attendance.service';
-import { SelectedModel } from 'src/app/core/models/selectedModel';
-import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
-import { MasterData } from 'src/assets/data/master-data';
+import { AttendanceService } from '../../../attendance-management/service/attendance.service'; 
+import { SelectedModel } from '../../../core/models/selectedModel';
+import { MasterData } from '../../../../assets/data/master-data';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmService } from 'src/app/core/service/confirm.service';
-import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
-import { BNASubjectNameService } from 'src/app/subject-management/service/BNASubjectName.service';
-import { TraineeNomination } from 'src/app/course-management/models/traineenomination';
+import { ConfirmService } from '../../../core/service/confirm.service';
+import { BNASubjectNameService } from '../../../subject-management/service/BNASubjectName.service'; 
+import { TraineeNomination } from '../../../course-management/models/traineenomination';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Attendance } from '../../../attendance-management/models/attendance';
-import { CheckboxSelectedModel } from 'src/app/core/models/checkboxSelectedModel';
+import { nomeneeSubjectSection } from '../../models/nomeneeSubjectSection';
+import { CheckboxSelectedModel } from '../../../core/models/checkboxSelectedModel';
 import { TraineeList } from '../../../attendance-management/models/traineeList';
 import { DatePipe } from '@angular/common';
-import { CoursesubjectsectionasignService } from 'src/app/semester-management/service/Coursesubjectsectionasign.service';
-import { AuthService } from 'src/app/core/service/auth.service';
-import { Role } from 'src/app/core/models/role';
+import { CoursesubjectsectionasignService } from '../../../semester-management/service/Coursesubjectsectionasign.service';
+import { AuthService } from '../../../core/service/auth.service';
+import { Role } from '../../../core/models/role';
+import { TraineeListForExamMark } from '../../../exam-management/models/traineeListforexammark';
+import { TraineeNominationService } from 'src/app/course-management/service/traineenomination.service';
+import { CodeValueService } from 'src/app/basic-setup/service/codevalue.service';
 
 @Component({
   selector: 'app-new-coursesubjectsectionasign',
@@ -25,13 +27,13 @@ import { Role } from 'src/app/core/models/role';
   styleUrls: ['./new-coursesubjectsectionasign.component.sass']
 }) 
 export class NewcoursesubjectsectionasignComponent implements OnInit {
-   masterData = MasterData;
+  masterData = MasterData;
   loading = false;
-  userRole = Role;
+  myModel = true;
   buttonText:string;
   pageTitle: string;
   destination:string;
-  AttendanceForm: FormGroup;
+  NomeneeSubjectSectionForm: FormGroup;
   validationErrors: string[] = [];
   selectedclassroutine:SelectedModel[];
   selectedbaseschools:SelectedModel[];
@@ -45,227 +47,161 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   traineeNominationListForAttendance: TraineeList[];
   selectedvalues:CheckboxSelectedModel[];
   traineeForm: FormGroup;
-  subjectNamefromClassRoutine:any;
-  selectedCourseSection:SelectedModel[];
+  courseSectionList:SelectedModel[];
+  selectedCourseDurationByCourseTypeAndCourseName:SelectedModel[];
   subjectName:string;
   bnaSubjectNameId:number;
   classRoutineId:number;
   courseDurationId:any;
-  selectedMarkType:any;
-  role:any;
-  traineeId:any;
-  branchId:any;
-  baseSchoolId:any;
-  traineeNominationListForAttendanceNew:any;
-  traineeNominationListForAttendanceFilter:any;
+  courseNameId:any;
+  isLoading = false;
+  displayedColumnsList: string[];
+  subjectList:TraineeNomination[];
   paging = {
     pageIndex: this.masterData.paging.pageIndex,
     pageSize: this.masterData.paging.pageSize,
     length: 1
   }
+
+  actionStatus : any;
+
+  searchText="";
+
+  displayedColumnsRoutine: string[] = ['ser','bnaSubjectName','date','timeDuration', 'actions'];
+   dataSource: MatTableDataSource<TraineeNomination> = new MatTableDataSource();
+
   checked = false;
   isShown: boolean = false ;
-  isShowSubjectName:boolean=false;
   isShownForTraineeList:boolean=false;
-  displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
-  dataSource ;
+  // displayedColumns: string[] = ['ser','traineePNo','attendanceStatus','bnaAttendanceRemarksId'];
+  // dataSource ;
   constructor(private snackBar: MatSnackBar, private authService: AuthService,private subjectNameService: BNASubjectNameService,private CoursesubjectsectionasignService:CoursesubjectsectionasignService,private datepipe:DatePipe, private confirmService: ConfirmService,private traineeNominationService:TraineeNominationService,private CodeValueService: CodeValueService,private AttendanceService: AttendanceService,private fb: FormBuilder, private router: Router,  private route: ActivatedRoute, ) { }
 
   ngOnInit(): void {
-
-    const id = this.route.snapshot.paramMap.get('traineeNominationId');  
+    // 3136
+   // const id = this.route.snapshot.paramMap.get('attendanceId'); 
+    //console.log(id);
+    //this.courseDurationId=this.route.snapshot.paramMap.get('courseDurationId'); 
     
-    this.role = this.authService.currentUserValue.role.trim();
-    this.traineeId =  this.authService.currentUserValue.traineeId.trim();
-    this.branchId =  this.authService.currentUserValue.branchId.trim();
-    console.log(this.role, this.traineeId, this.branchId)
+    let  traineeNominationId= this.route.snapshot.paramMap.get('traineeNominationId');  
 
-    //const id = this.route.snapshot.paramMap.get('attendanceId'); 
-    if (id) {
-      this.pageTitle = 'Edit Attendance'; 
-      this.destination = "Edit"; 
-      this.buttonText= "Update" 
-      this.AttendanceService.find(+id).subscribe(
-        res => {
-          this.AttendanceForm.patchValue({          
-            attendanceId:res.attendanceId, 
-            classRoutineId: res.classRoutineId, 
-            baseSchoolNameId:res.baseSchoolNameId, 
-            courseNameId:res.courseNameId, 
-            bnaSubjectNameId:res.bnaSubjectNameId, 
-            classPeriodId:res.classPeriodId,
-            courseSectionId:res.courseSectionId,
-            bnaAttendanceRemarksId:res.bnaAttendanceRemarksId,
-            attendanceDate:res.attendanceDate,
-            classLeaderName:res.classLeaderName,
-            attendanceStatus:res.attendanceStatus,
-            isApproved:res.isApproved,
-            approvedUser:res.approvedUser,
-            approvedDate:res.approvedDate,
-            status:res.status,
-            menuPosition: res.menuPosition,
-            isActive: res.isActive,
-          });          
-        }
-      );
-    } else {
-      this.pageTitle = 'Create Attendance';
-      this.destination = "Add"; 
-      this.buttonText= "Save";
-    } 
-     this.intitializeForm();
-     if(this.role === this.userRole.SuperAdmin || this.role === this.userRole.BNASchool || this.role === this.userRole.JSTISchool){
-      this.AttendanceForm.get('baseSchoolNameId').setValue(this.branchId);
-      this.onBaseSchoolNameSelectionChangeGetCourse(this.branchId);
-     }
-     this.getselectedclassroutine();
-     this.getselectedbaseschools();
-     this.getselectedcoursename();
-     this.getselectedbnasubjectname();
-     this.getselectedclassperiod();
-     this.getselectedbnaattendanceremark();
+
+    
+    this.intitializeForm();
+    if(traineeNominationId!=null){
+      this.getTraineeNominationIdList(traineeNominationId);
+    }
+
+    this.getCourseSection();
   }
+
+
   intitializeForm() {
-    this.AttendanceForm = this.fb.group({
+    this.NomeneeSubjectSectionForm = this.fb.group({
       attendanceId: [0],
       baseSchoolNameId:[''],
       courseNameId:[''],
+      courseNameIds:[''],
       courseDurationId:[''],
-      classPeriodId:[''],
-      classPeriod:[''], 
-      courseSectionId:[''], 
+      classPeriodId:[''], 
       attendanceDate:[], 
       classLeaderName:[''],
+      indexNo:[''],
       attendanceStatus:[true],
-      absentForExamStatus:[false],
-     traineeList: this.fb.array([this.createTraineeData()]),
+     subjectSectionForm: this.fb.array([this.createSubjectListData()]),
     })
   }
-  onOptionsSelected(index,value) {
-    this.traineeNominationListForAttendance[index]["bnaAttendanceRemarksId"] = value;
- }
-  onCheckboxChange(index,event) {
-    this.traineeNominationListForAttendance[index]["attendanceStatus"] = event.checked;
-    this.traineeNominationListForAttendance[index]["absentForExamStatus"] = !event.checked;
-  }
-  private createTraineeData() {
-    return this.fb.group({
-      bnaAttendanceRemarksId: [''],
-      courseDurationId: [''],
-      traineeId: [''],
 
+  getCourseSection(){
+    this.CoursesubjectsectionasignService.getselectedcoursedurationForBna().subscribe(res=>{  
+          console.log(res);
+        this.courseSectionList=res;
+        console.log(this.courseSectionList);
+      
     });
   }
-  onBaseSchoolNameSelectionChangeGetCourse(baseSchoolNameId){
-      this.AttendanceService.getCourseByBaseSchoolNameId(baseSchoolNameId).subscribe(res=>{
-        this.selectedCourse=res
-      });
-     }
-      get f() { return this.AttendanceForm.controls; }
-      get t() { return this.f.traineeLists as FormArray; }
 
-     onClassPeriodSelectionChangeGetCourseDuration(){  
-      this.isShown=true
-      this.isShowSubjectName=true;
-      var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
-      var courseNameId=this.AttendanceForm.value['courseNameId']; 
-      var classPeriod=this.AttendanceForm.value['classPeriod']; 
-      var date=this.AttendanceForm.value['attendanceDate']; 
+  private createSubjectListData() {
 
-      var courseNameArr = courseNameId.split('_');
-      this.courseDurationId = courseNameArr[0];
-      var courseNameId=courseNameArr[1];
+    return this.fb.group({
+      courseNomeneeId: [0],   
+      traineeNominationId  :[''],
+      courseDurationId  :[''],
+      courseNameId  :[''],
+     baseSchoolNameId  :[''],
+     courseModuleId  :[''],
+     bnaSubjectNameId  :[''],
+     bnaSemesterId  :[''],
+     departmentId  :[''],
+     bnaSubjectCurriculumId  :[''],
+     courseSectionId  :[''],
+     traineeId  :[''],
+      subjectMarkId  :[''],
+      markTypeId  :[''],
+      subjectName:[''],
+    });
+  }
 
-      var classPeriodArr = classPeriod.split('_');
-      this.classRoutineId = classPeriodArr[0];
-      var classPeriodId = classPeriodArr[1];
-      var courseSectionId=classPeriodArr[2];
-      this.bnaSubjectNameId=classPeriodArr[3];
 
-      this.AttendanceForm.get('classPeriodId').setValue(classPeriodId);
-      this.AttendanceForm.get('courseSectionId').setValue(courseSectionId);
-      console.log("sectionId")
-      console.log(classPeriod,this.classRoutineId,classPeriodId,courseSectionId,this.bnaSubjectNameId); 
+  getControlLabel(index: number, type: string) {
+    return (this.NomeneeSubjectSectionForm.get('subjectSectionForm') as FormArray).at(index).get(type).value;
+  }
+
+  getTraineeListonClick() {
+    const control = <FormArray>this.NomeneeSubjectSectionForm.controls["subjectSectionForm"];
+    console.log(this.subjectList)
+    for (let i = 0; i < this.subjectList.length; i++) {
+      control.push(this.createSubjectListData());
+    }
+    this.NomeneeSubjectSectionForm.patchValue({ subjectSectionForm: this.subjectList });
+    console.log("value...");
+    console.log(this.subjectList)
+  }
+
+  clearList() {
+    const control = <FormArray>this.NomeneeSubjectSectionForm.controls["subjectSectionForm"];
+    while (control.length) {
+      control.removeAt(control.length - 1);
+    }
+    control.clearValidators();
+  }
+
  
 
-      this.subjectNameService.find(this.bnaSubjectNameId).subscribe(res=>{
-        console.log('subject by id ',this.bnaSubjectNameId);
-        console.log(res.subjectName);
-        this.subjectNamefromClassRoutine = res.subjectName;
-      })
+  getTraineeNominationIdList(traineeNominationId){
 
-       
+    this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAsignId(traineeNominationId).subscribe(res=>{
+      this.subjectList=res;
 
-      
+      if (res.length==0){
+ 
+      this.CoursesubjectsectionasignService.BnaNomeneeSubjectSectionAlredyAsignId(traineeNominationId).subscribe(res=>{
+        this.subjectList=res;
+        this.pageTitle = 'Assign Course Section';
+        this.destination = "Assign"; 
+        //this.buttonText= "Update"; 
+        this.actionStatus='U';
+        this.clearList();
+        this.getTraineeListonClick();
+      });
+      }
+      else
+      {
+        this.pageTitle = 'Assign Course Section';
+        this.destination = "Assign"; 
+        this.buttonText= "SAVE"; 
+        this.actionStatus='S';
+        this.clearList();
+        this.getTraineeListonClick();
+      }
+
+    });
 
 
-       if(baseSchoolNameId != null && courseNameId != null && this.courseDurationId !=null && classPeriodId !=null){
-        this.traineeNominationService.getTraineeNominationByCourseDurationId(this.courseDurationId,courseSectionId).subscribe(res=>{
-          this.traineeNominationListForAttendance=res.filter(x=>x.withdrawnTypeId === null);
-
-          console.log(this.traineeNominationListForAttendanceFilter);
-          for(let i=0;i<=this.traineeNominationListForAttendance.length;i++)
-          {
-            this.traineeNominationListForAttendance[i].attendanceStatus=true;
-            this.traineeNominationListForAttendance[i].absentForExamStatus=false;
-          }
-         });
-      }  
-     }
-
-     onDateSelectionChange(event){
-      var date=this.datepipe.transform((event.value), 'MM/dd/yyyy');
-           var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
-           var courseNameId=this.AttendanceForm.value['courseNameId'];
-
-           var courseNameArr = courseNameId.split('_');
-           var courseDurationId = courseNameArr[0];
-           var courseNameId=courseNameArr[1];
-
-            if(baseSchoolNameId != null && courseNameId != null  && courseDurationId !=null){
-              this.AttendanceService.getSelectedClassPeriodByBaseSchoolNameIdAndCourseNameId(baseSchoolNameId,courseNameId,courseDurationId,date).subscribe(res=>{
-                this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId=res;     
-                console.log( this.selectedClassPeriodByBaseSchoolNameIdAndCourseNameId); 
-              });
-            }  
-     }
-
+    
+  }
   
 
-  getselectedclassroutine(){
-    this.AttendanceService.getselectedclassroutine().subscribe(res=>{
-      this.selectedclassroutine=res
-    });
-  } 
-
-  getselectedbaseschools(){
-    this.AttendanceService.getselectedbaseschools().subscribe(res=>{
-      this.selectedbaseschools=res
-    });
-  } 
-
-  getselectedcoursename(){
-    this.AttendanceService.getselectedcoursename().subscribe(res=>{
-      this.selectedcoursename=res
-    });
-  }
-
-  getselectedbnasubjectname(){
-    this.AttendanceService.getselectedbnasubjectname().subscribe(res=>{
-      this.selectedbnasubjectname=res
-    });
-  }
-  getselectedclassperiod(){
-    this.AttendanceService.getselectedclassperiod().subscribe(res=>{
-      this.selectedclassperiod=res
-    });
-  }
-
-  getselectedbnaattendanceremark(){
-    this.AttendanceService.getselectedbnaattendanceremark().subscribe(res=>{
-      this.selectedbnaattendanceremark=res
-    });
-  }
 
   reloadCurrentRoute() {
     let currentUrl = this.router.url;
@@ -275,32 +211,37 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
   }
 
   onSubmit() {
-    this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This  Item').subscribe(result => {
-      if (result) {
+
+    //  const id = this.AttendanceForm.get('traineeNominationId').value;
+
+    console.log(this.NomeneeSubjectSectionForm.value);
+    console.log(this.actionStatus+' - ppppppp')
+if (this.actionStatus=='S'){
+    this.confirmService.confirm('Confirm Save message', 'Are You Sure Inserted This Records?').subscribe(result => {
       console.log(result);
-        const id = this.AttendanceForm.get('attendanceId').value;
-        this.isShowSubjectName=false;
-        var classLeaderName= this.AttendanceForm.value['classLeaderName'];
-        var attendanceDate= this.AttendanceForm.value['attendanceDate'];
-        var baseSchoolNameId=this.AttendanceForm.value['baseSchoolNameId'];
-        var classPeriodId = this.AttendanceForm.value['classPeriodId'];
-     
-         for (let i = 0; i < this.traineeNominationListForAttendance.length; i++) {
-          this.traineeNominationListForAttendance[i]["classLeaderName"] = classLeaderName;
-          this.traineeNominationListForAttendance[i]["attendanceDate"] = this.datepipe.transform((new Date), 'MM/dd/yyyy');
-          this.traineeNominationListForAttendance[i]["bnaSubjectNameId"] = this.bnaSubjectNameId; 
-          this.traineeNominationListForAttendance[i]["baseSchoolNameId"] = baseSchoolNameId;
-          this.traineeNominationListForAttendance[i]["classPeriodId"] = classPeriodId;
-          this.traineeNominationListForAttendance[i]["classRoutineId"] = this.classRoutineId;
-        }
-        console.log(this.AttendanceForm.value)
-        
-          this.loading=true;
-          this.AttendanceService.submit(JSON.stringify(this.traineeNominationListForAttendance) ).subscribe(response => {
-            this.reloadCurrentRoute();
-            this.isShown=false;
-    
-            this.snackBar.open('Information Inserted Successfully ', '', {
+      if (result) {
+        this.loading = true;
+        this.CoursesubjectsectionasignService.submit(this.NomeneeSubjectSectionForm.value).subscribe(response => {
+       //   this.router.navigateByUrl('/semester-management/add-traineenomination='+);
+          this.snackBar.open('Information Inserted Successfully ', '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
+          });
+        }, error => {
+          this.validationErrors = error;
+        })
+      }
+    })}
+    else if(this.actionStatus=='U'){
+      this.confirmService.confirm('Confirm Save message', 'Are You Sure Update This Records?').subscribe(result => {
+        console.log(result);
+        if (result) {
+          this.loading = true;
+          this.CoursesubjectsectionasignService.update(this.NomeneeSubjectSectionForm.value).subscribe(response => {
+            //this.router.navigateByUrl('/course-management/schoolcourse-list');
+            this.snackBar.open('Information Updated Successfully ', '', {
               duration: 2000,
               verticalPosition: 'bottom',
               horizontalPosition: 'right',
@@ -308,8 +249,35 @@ export class NewcoursesubjectsectionasignComponent implements OnInit {
             });
           }, error => {
             this.validationErrors = error;
+          })
+        }
+      })
+    }
+  }
+/*
+  onSubmit() {
+    
+    //  const id = this.NomeneeSubjectSectionForm.get('traineeNominationId').value;
+    this.confirmService.confirm('Confirm Save message', 'Are You Sure Save This Records?').subscribe(result => {
+      console.log(result);
+      if (result) {
+        this.loading = true;
+        this.CoursesubjectsectionasignService.submit(JSON.stringify(this.NomeneeSubjectSectionForm.value) ).subscribe(response => {
+          //this.router.navigateByUrl('/exam-management/bnaexammark-list');
+         // this.reloadCurrentRoute();
+         this.reloadCurrentRoute();
+          this.snackBar.open('Information Inserted Successfully ', '', {
+            duration: 2000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'right',
+            panelClass: 'snackbar-success'
           });
+        }, error => {
+          this.validationErrors = error;
+        })
       }
     })
-  }
+
+  }*/
 }
+

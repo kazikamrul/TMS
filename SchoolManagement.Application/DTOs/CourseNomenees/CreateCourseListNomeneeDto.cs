@@ -1,14 +1,14 @@
-﻿using System;
+﻿using SchoolManagement.Application.DTOs.BnaExamMark.converter;
+using SchoolManagement.Application.DTOs.CourseNomenees.converter;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace SchoolManagement.Application.DTOs.TraineeNomination
+namespace SchoolManagement.Application.DTOs.CourseNomenees
 {
-    public class TraineeNominationList
+    public class CreateCourseListNomeneeDto  // : ICourseNomeneeDto
     {
-        public int CourseNomeneeId { get; set; }
+        //public int CourseNomeneeId { get; set; }
         public int AttendanceId { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? CourseNameId { get; set; }
@@ -20,11 +20,13 @@ namespace SchoolManagement.Application.DTOs.TraineeNomination
         public string? CourseAttendStateRemark { get; set; }
         public string? ClassPeriodId { get; set; }
         public object? AttendanceDate { get; set; }
-        public string? ClassLeaderName { get; set; } 
+        public string? ClassLeaderName { get; set; }
         public string? indexNo { get; set; }
         public bool? AttendanceStatus { get; set; }
+
+        public List<CourseNomeneeListFormDto>? SubjectSectionForm { get; set; }
+
         
 
-        public List<TraineeListFormForNomination>? TraineeListForm { get; set; }
     }
 }

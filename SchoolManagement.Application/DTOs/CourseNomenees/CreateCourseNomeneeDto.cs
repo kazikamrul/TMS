@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SchoolManagement.Application.DTOs.BnaExamMark.converter;
+using SchoolManagement.Application.DTOs.CourseNomenees.converter;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,6 +26,11 @@ namespace SchoolManagement.Application.DTOs.CourseNomenees
         public int? MenuPosition { get; set; }
         public bool? IsActive { get; set; }
         public int? ExamMarkEntry { get; set; }
+
+       
+        public List<CourseNomeneeListFormDto>? courseNomeneeForm { get; set; }
+
+        
 
     }
 }

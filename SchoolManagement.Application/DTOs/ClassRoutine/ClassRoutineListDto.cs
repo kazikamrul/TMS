@@ -10,6 +10,7 @@ namespace SchoolManagement.Application.DTOs.ClassRoutine
     {
         public int ClassRoutineId { get; set; }
         public int? CourseModuleId { get; set; }
+        public int? BnaSemesterId { get; set; }
         public int? ClassPeriodId { get; set; }
         public int? BaseSchoolNameId { get; set; }
         public int? ClassCountPeriod { get; set; }

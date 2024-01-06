@@ -6,7 +6,7 @@ namespace SchoolManagement.Application.DTOs.CourseNomenees
 {
     public interface ICourseNomeneeDto
     {
-        public int CourseNomeneeId { get; set; }
+       /* public int CourseNomeneeId { get; set; }
         public int? TraineeNominationId { get; set; }
         public int? CourseDurationId { get; set; }
         public int? CourseNameId { get; set; }
@@ -23,7 +23,7 @@ namespace SchoolManagement.Application.DTOs.CourseNomenees
         public int? Status { get; set; }
         public int? MenuPosition { get; set; }
         public bool? IsActive { get; set; }
-        public int? ExamMarkEntry { get; set; }
+        public int? ExamMarkEntry { get; set; }*/
 
     }
 }

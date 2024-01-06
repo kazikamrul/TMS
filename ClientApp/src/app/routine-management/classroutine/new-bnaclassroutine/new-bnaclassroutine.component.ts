@@ -31,6 +31,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   validationErrors: string[] = [];
   selectedbaseschool:SelectedModel[];
   selectedclasstype:SelectedModel[];
+  selectedSemester:SelectedModel[];
   selectedLocationType:SelectedModel[];
   selectedclassperiod:SelectedModel[];
   selectedcoursedurationbyschoolname:SelectedModel[];
@@ -87,6 +88,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
   weekStartDate:any;
   weekFromTo:any;
   isShown: boolean = false ;
+  bnaSemesterId :number;
   groupArrays:{ date: string; games: any; }[];
   displayedRoutineCountColumns: string[] = ['ser','name','shortCode'];
   displayedSubjectListColumns: string[] = ['ser','instructorName','instructorShortCode'];
@@ -150,7 +152,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
       );
     } else {
       this.pageTitle = 'Create Weekly Program';
-      this.destination = "Add"; 
+      this.destination =  "Add"; 
       this.buttonText= "Save"
     } 
     this.intitializeForm();
@@ -165,12 +167,14 @@ export class NewBnaClassRoutineComponent implements OnInit {
     this.getselectedclasstype();
     this.getselectedCourseModules();
     this.getselectedcoursename();
+    this.getSelectedBnaSemester()
     
   }
   intitializeForm() {
     this.ClassRoutineForm = this.fb.group({
       classRoutineId: [0],
       courseModuleId:[],
+      bnaSemesterId:[],
       courseName:[''],
       courseNameId:[],
       classPeriodId:['',Validators.required],
@@ -554,11 +558,12 @@ export class NewBnaClassRoutineComponent implements OnInit {
     var courseWeekId=this.ClassRoutineForm.value['courseWeekId'];
     var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
     this.sectionId = this.ClassRoutineForm.value['courseSectionId'];
+    this.bnaSemesterId = this.ClassRoutineForm.value['bnaSemesterId'];
 
-    console.log("baseSchoolNameId,courseNameId,courseWeekId,this.sectionId")
-    console.log(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId)
+    console.log("baseSchoolNameId,courseNameId,courseWeekId,this.sectionId, this.bnaSemesterId ")
+    console.log(baseSchoolNameId,courseNameId,courseWeekId,this.sectionId,  this.bnaSemesterId )
 
-    this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId,courseNameId).subscribe(res=>{
+    this.ClassRoutineService.getselectedSubjectNamesBySchoolAndCourse_sem(baseSchoolNameId,courseNameId,this.bnaSemesterId).subscribe(res=>{
       this.selectedsubjectname=res;
       console.log(this.selectedsubjectname)
     });
@@ -630,6 +635,13 @@ export class NewBnaClassRoutineComponent implements OnInit {
  
   }
 
+  getSelectedBnaSemester(){
+    this.ClassRoutineService.getSelectedBnaSemester().subscribe(res=>{
+      this.selectedSemester=res
+      console.log(this.selectedSemester);
+    });
+  } 
+
   getselectedbaseschools(){
     this.ClassRoutineService.getselectedbaseschools().subscribe(res=>{
       this.selectedbaseschool=res;
@@ -682,6 +694,25 @@ export class NewBnaClassRoutineComponent implements OnInit {
       console.log("Module")
     });
   } 
+
+  onWeekSelectionChangesemisterGet(dropdown){
+    var baseSchoolNameId=this.ClassRoutineForm.value['baseSchoolNameId'];
+    var bnaSemesterId=dropdown.value;
+
+    var courseNameId=this.ClassRoutineForm.value['courseNameId'];
+    //var courseWeekId=this.ClassRoutineForm.value['courseWeekId'];
+    var courseDurationId=this.ClassRoutineForm.value['courseDurationId'];
+    console.log('bnaSemesterId' + bnaSemesterId)
+    console.log('bnaSemesterId' + courseDurationId)
+    this.ClassRoutineService.getSelectedCourseWeeks_sem(baseSchoolNameId,courseDurationId,courseNameId,bnaSemesterId).subscribe(res=>{
+      this.selectedWeek=res;
+      console.log(this.selectedWeek)
+      console.log("Course Week")
+    });    
+ 
+    console.log("Module")
+  //  (onSelectionChange)="onSubjectNameSelectionChangeGet(dropdown,i)"
+  }
 
   getselectedCourseModules(){
     this.ClassRoutineService.getselectedCourseModules().subscribe(res=>{
@@ -763,6 +794,7 @@ export class NewBnaClassRoutineComponent implements OnInit {
     }, error => {
       this.validationErrors = error;
     })
+
     // if (id) {
     //   this.confirmService.confirm('Confirm Update message', 'Are You Sure Update This  Item').subscribe(result => {
     //     console.log(result);

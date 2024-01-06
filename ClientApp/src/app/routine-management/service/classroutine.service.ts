@@ -64,6 +64,11 @@ export class ClassRoutineService {
     return this.http.get<any[]>(this.baseUrl + '/class-routine/get-instructorAvailabilityByDateAndPeriod?traineeId='+traineeId+'&classPeriodId='+classPeriodId+'&date='+date);
   }
 
+
+  getSelectedBnaSemester(){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-semester/get-selectedBnaSemesters')
+  }
+
   getSubjectsByRoutineList(baseSchoolNameId,courseNameId,courseDurationId,courseWeekId,courseSectionId){
     return this.http.get<any[]>(this.baseUrl + '/bna-subject-name/get-subjectsByRoutineList?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId+'&courseDurationId='+courseDurationId+'&courseWeekId='+courseWeekId+'&courseSectionId='+courseSectionId);
   }
@@ -164,8 +169,12 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
     return this.http.get<SelectedModel[]>(this.baseUrl + '/course-week/get-selectedCourseWeeks?baseSchoolNameId='+baseSchoolNameId+'&courseDurationId='+courseDurationId+'&courseNameId='+courseNameId)
   }
 
-  getSelectedBnaCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId){
-    return this.http.get<SelectedModel[]>(this.baseUrl + '/course-week/get-selectedBnaCourseWeeks?baseSchoolNameId='+baseSchoolNameId+'&courseDurationId='+courseDurationId+'&courseNameId='+courseNameId)
+  /*getSelectedCourseWeeks_sem(baseSchoolNameId,courseDurationId,courseNameId,bnaSemesterId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/course-week/get-selectedCourseWeeks?baseSchoolNameId='+baseSchoolNameId+'&courseDurationId='+courseDurationId+'&courseNameId='+courseNameId)
+  }
+*/
+  getSelectedCourseWeeks_sem(baseSchoolNameId,courseDurationId,courseNameId,bnaSemesterId){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/course-week/get-selectedBnaCourseWeeks?baseSchoolNameId='+baseSchoolNameId+'&courseDurationId='+courseDurationId+'&courseNameId='+courseNameId+'&bnaSemesterId='+bnaSemesterId)
   }
 
   getSelectedAllCourseWeeks(baseSchoolNameId,courseDurationId,courseNameId){
@@ -191,6 +200,11 @@ getSubjectNameFromRoutineForLocal(baseSchoolNameId,courseNameId,date,classPeriod
   getselectedSubjectNamesBySchoolAndCourse(baseSchoolNameId:number,courseNameId:number){
     return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-name/get-selectedSubjectNamesBySchoolAndCourse?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
   }
+
+  getselectedSubjectNamesBySchoolAndCourse_sem(baseSchoolNameId:number,courseNameId:number,bnaSemesterId:number){
+    return this.http.get<SelectedModel[]>(this.baseUrl + '/bna-subject-name/get-selectedSubjectNamesBySchoolAndCourse?baseSchoolNameId='+baseSchoolNameId+'&courseNameId='+courseNameId)
+  }
+
   getdataForPrintWeeklyRoutine(courseWeekId){
     return this.http.get<any>(this.baseUrl + '/course-week/get-dataForPrintWeeklyRoutine?courseWeekId='+courseWeekId)
   }
